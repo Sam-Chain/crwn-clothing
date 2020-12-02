@@ -10,10 +10,21 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
     [selectCollections],
-    collections => Object.keys(collections).map(key => collections[key])
+    collections => collections ? Object.keys(collections).map(key => collections[key])// object to array
+                                : []
 )
 
 export const selectCollection = collectionId => createSelector (
     [selectCollections],
-    collections => collections[collectionId]
+    collections => collections ? collections[collectionId] : null
+)
+
+export const selectIsCollectionFetching = createSelector(//params
+    [selectShop],
+    shop => shop.isFetching
+)
+
+export const selectIsCollectionsLoaded = createSelector(
+    [selectShop],
+    shop => !!shop.collections //convert the value to boolean
 )

@@ -13,21 +13,14 @@ import SignInUp from './pages/sign-in-up/sign-in-up.component';
 import Checkout from './pages/checkout/checkout.component'
 import setCurrentUser from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+// import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
 
 class App extends Component {
-
-  // constructor(props){
-  //   super(props)
-
-  //   this.state= {
-  //     currentUser: null
-  //   }
-  // }
-
   unsubscribeFromAuth = null
 
   componentDidMount(){
+    // const {setCurrentUser, collectionsArray} = this.props
     const {setCurrentUser} = this.props
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth=>{
 
@@ -44,15 +37,12 @@ class App extends Component {
                   ...snapshot.data()
                 } 
               }, 
-              // ()=> console.log(this.state)
-          );
-          // ()=> console.log(this.state)
+            );
         })
         
       }
-     
-      // this.setState({currentUser: userAuth})
       setCurrentUser(userAuth)
+      // addCollectionAndDocuments('collections', collectionsArray.map( ({title, items}) => ({title, items}) ))
     })
   }
 
@@ -101,7 +91,8 @@ class App extends Component {
 
 }
 const mapTStateToProps = createStructuredSelector ({ // {user}
-  currentUser: selectCurrentUser
+  currentUser: selectCurrentUser,
+  // collectionsArray: selectCollectionsForPreview
 })
 
 const mapDispatchToProps = dispatch => ({

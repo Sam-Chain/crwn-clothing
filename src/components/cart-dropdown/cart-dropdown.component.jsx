@@ -24,7 +24,7 @@ function Cart({cartItems, history, dispatch}) {
                     history.push('/checkout')
                     dispatch(toggleCartHidden() )
                 }}
-            >OG TO CHECKOUT</Button>
+            >GO TO CHECKOUT</Button>
         </div>
     )
 }
@@ -34,4 +34,5 @@ const mapStateToProps = createStructuredSelector ({ // state => ({cart: {cartIte
     cartItems: selectCartItems // (state) using selectors
 })
 
-export default withRouter(connect(mapStateToProps)(Cart))
+// export default withRouter(connect(mapStateToProps)(Cart))
+export default connect(mapStateToProps)(Cart)

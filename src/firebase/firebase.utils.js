@@ -43,6 +43,39 @@ export const createUserProfileDocument = async (userAuth, additionalData)=>{
     // console.log(snapShot);
 }
 
+export const convertCollectionsSnapshotToMap  = collections => {
+    const transformedCollection = collections.docs
+    // .map(doc => ({ id: doc.id, routName: encodeURI, ...doc.data() }))  // my solution
+    .map(doc => {
+        const {title, items} = doc.data()
+
+        return {
+            routName: encodeURI(title.toLowerCase()), // js method in (js renderer) removes any characters that the url doesn't recognize
+            id: doc.id,
+            title,
+            items
+        }
+    })
+
+    return transformedCollection.reduce( (obj, collection) => {
+        obj[collection.title.toLowerCase()] = collection
+        return obj
+    }, {})
+}
+
+// adding data to fire-store
+// export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+//     const collectionRef = firestore.collection(collectionKey)
+
+//     const batch = firestore.batch()
+//     objectsToAdd.forEach(obj => { // same as map() but doesn't return
+//         const newDocRef = collectionRef.doc()
+//         batch.set(newDocRef, obj)
+//     })
+
+//     return await batch.commit()
+// }
+
 firebase.initializeApp(config)
 
 export const auth = firebase.auth()
